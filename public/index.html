@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ASOS Explorer (Minimal)</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    *{box-sizing:border-box} body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#fff}
+    header{position:sticky;top:0;background:#ffffffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid #e5e7eb;padding:10px 16px}
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+    #map{height:520px;border:1px solid #e5e7eb;border-radius:12px}
+    .card{border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .row{display:flex;gap:8px;align-items:center}
+    input,select,button{padding:8px;border:1px solid #e5e7eb;border-radius:8px}
+    button{cursor:pointer}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:6px;border-bottom:1px solid #f1f5f9;text-align:left}
+    .muted{color:#64748b;font-size:12px}
+    canvas{max-height:320px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap row" style="justify-content:space-between">
+    <div class="row" style="gap:10px"><div>🌎</div><strong>ASOS Explorer (Minimal)</strong></div>
+    <div class="muted">Rate limit: 20/min • Corrupted rows auto-skipped</div>
+  </div>
+</header>
+
+<div class="wrap grid">
+  <div class="card">
+    <div class="row" style="margin-bottom:8px">
+      <input id="search" placeholder="Search station id/name/state/country" style="flex:1" />
+      <button id="clearBtn">Clear</button>
+    </div>
+    <div id="map"></div>
+  </div>
+  <div class="card">
+    <div id="info" class="muted">Pick a station…</div>
+    <div class="row" style="margin-top:8px">
+      <label class="muted">From</label>
+      <input id="from" type="date" />
+      <label class="muted">To</label>
+      <input id="to" type="date" />
+    </div>
+    <div class="row" style="margin-top:8px">
+      <select id="metric">
+        <option value="temp">Temperature</option>
+        <option value="wind">Wind speed</option>
+        <option value="gust">Wind gust</option>
+        <option value="precip">Precipitation</option>
+        <option value="pressure">Pressure</option>
+        <option value="humidity">Humidity</option>
+      </select>
+      <button id="refresh">Refresh</button>
+    </div>
+    <div class="muted" id="stats" style="margin-top:6px"></div>
+  </div>
+</div>
+
+<div class="wrap card" style="margin-top:8px">
+  <div style="font-weight:600;margin-bottom:6px" id="chartTitle">Metric over time</div>
+  <canvas id="chart"></canvas>
+  <div class="muted" style="margin-top:6px">Table (filtered)</div>
+  <div style="max-height:220px;overflow:auto">
+    <table>
+      <thead><tr><th>Time (UTC)</th><th>Temp</th><th>Wind</th><th>Gust</th><th>Precip</th><th>Pressure</th><th>Humidity</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
